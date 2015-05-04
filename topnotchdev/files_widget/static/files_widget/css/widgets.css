@@ -50,12 +50,13 @@
 }
 
 .files-widget-dropbox .image-holder {
-	min-height: 50px;
-	min-width: 50px;
-	line-height: 50px;
+	min-height: 100px;
+	min-width: 100px;
+	line-height: 100px;
 }
 
 .files-widget-dropbox .preview .thumbnail {
+    min-height: 100px;
 	vertical-align: middle;
     background: url(/static/files_widget/img/transparent-bg.gif) left top;
 }
@@ -222,4 +223,10 @@
 
 .files-widget-deleted .deleted-file .undo {
 	font-weight: bold;
+}
+
+.files-widget-comment {
+    position: absolute;
+    bottom: 0px;
+    left: 0px;
 }

@@ -1,3 +1,34 @@
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie != '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) == (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+function comment(sender, path, url) {
+    sender.title = sender.value
+    sender.style.borderColor = 'gray';
+    var csrfToken = getCookie('csrftoken');
+    $.post( url, {
+        csrfmiddlewaretoken: csrfToken,
+        comment: sender.value,
+        path: path
+      }).done(function() {
+        sender.style.borderColor = "#85c222"
+      }).fail(function() {
+        sender.style.borderColor = "#FFc222"
+      })
+}
+
 $(function(){
     
     var csrfToken = getCookie('csrftoken'),
@@ -408,7 +439,7 @@ $(function(){
                 { name: 'preview_size', value: previewSize }
             ],
             autoUpload: true,
-            maxFileSize: 10000000,
+            maxFileSize: 70000000,
             acceptFileTypes: /(\.|\/)(gif|jpe?g|png)$/i,
             maxNumberOfFiles: undefined,
             previewMaxWidth: 150,

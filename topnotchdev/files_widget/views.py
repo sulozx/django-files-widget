@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import permission_required
 
 from files import save_upload
 from controllers import FilePath, ImagePath
+from models import FileComment
 
 @permission_required('files_widget.can_upload_files')
 def upload(request):
@@ -44,13 +45,30 @@ def upload(request):
     if 'preview_size' in request.POST:
         preview_size = request.POST['preview_size']
     else:
-        preview_size = '64'
+        preview_size = '128'
 
     return HttpResponse(json.dumps({
         'success': True,
         'imagePath': path_to_file,
         'thumbnailPath': render_to_string('files_widget/includes/thumbnail.html', locals()),
     }))
+
+
+@permission_required('files_widget.can_upload_files')
+def comment(request):
+    if not request.method == 'POST':
+        raise Http404
+
+    comment = request.POST['comment']
+    path = request.POST['path']
+    print 'OLOLO this is the comment:', comment
+    comment_obj, created = FileComment.objects.get_or_create(path=path, defaults={"comment": comment})
+    if not created:
+        comment_obj.comment = comment
+        comment_obj.save()
+
+    return HttpResponse(json.dumps({}))
+
 
 @permission_required('files_widget.can_upload_files')
 def thumbnail_url(request):
