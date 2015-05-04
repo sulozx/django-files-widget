@@ -3,8 +3,9 @@
 }
 
 .files-widget-dropbox {
-	width: 698px;
-	min-height: 100px;
+	width: 300px;
+	overflow:auto;
+	height: auto;
 	border: 1px solid transparent;
 	margin: 0 -3px;
 }

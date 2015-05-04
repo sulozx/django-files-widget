@@ -295,16 +295,6 @@ $(function(){
         });
     }
 
-    $(document).bind('drag dragover', function (e) {
-        e.preventDefault();
-        $('.files-widget-dropbox').addClass('dragging-files');
-    }).bind('drop', function (e) {
-        e.preventDefault();
-        $('.files-widget-dropbox').removeClass('dragging-files');
-    }).bind('dragleave', function (e) {
-        $('.files-widget-dropbox').removeClass('dragging-files');
-    });
-
     widget.each(function() {
         var that = $(this),
             dropbox = $('.files-widget-dropbox', that),
@@ -404,30 +394,6 @@ $(function(){
         });
         
         dropbox.disableSelection();
-        dropbox.bind('dragover', function (e) {
-            dropbox.addClass('dragover');
-        }).bind('dragleave drop', function (e) {
-            dropbox.removeClass('dragover');
-        });
-
-        dropbox.sortable({
-            placeholder: 'sortable-placeholder',
-            //tolerance: 'pointer',
-            connectWith: '.files-widget-dropbox',
-            //cursorAt: { top: 0, left: 0 },
-            //items: '.preview:not(.controls-preview)',
-            revert: effectTime,
-            start: function(e, ui) {
-                $('.sortable-placeholder').width(ui.item.width()).height(ui.item.height());
-            },
-            over: function() {
-                message.hide();
-            },
-            beforeStop: function(e, ui) {
-                var newDropbox = ui.placeholder.closest('.files-widget-dropbox');
-                onPreviewMove(ui.item, dropbox, newDropbox);
-            }
-        });
 
         filesInput.fileupload({
             url: uploadURL,
