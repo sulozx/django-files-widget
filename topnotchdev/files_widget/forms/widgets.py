@@ -1,3 +1,5 @@
+import os
+
 from django import forms
 from django.conf import settings
 from django.template.loader import render_to_string
@@ -72,6 +74,8 @@ class BaseFilesWidget(forms.MultiWidget):
 
             comments.append(r or '')
 
+        names = [os.path.basename(path) for path in pathes]
+
         context = {
             'MEDIA_URL': settings.MEDIA_URL,
             'STATIC_URL': settings.STATIC_URL,
@@ -79,7 +83,7 @@ class BaseFilesWidget(forms.MultiWidget):
             'add_image_by_url': ADD_IMAGE_BY_URL,
             'input_string': super(BaseFilesWidget, self).render(name, value, attrs),
             'name': name,
-            'files': zip(pathes, comments),
+            'files': zip(pathes, comments, names),
             'deleted_files': deleted_files,
             'multiple': self.multiple and 1 or 0,
             'preview_size': unicode(128), # TODO: remove this hardcode

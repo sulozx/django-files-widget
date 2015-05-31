@@ -14,19 +14,26 @@ function getCookie(name) {
     return cookieValue;
 }
 
+
 function comment(sender, path, url) {
     sender.title = sender.value
     sender.style.borderColor = 'gray';
-    var csrfToken = getCookie('csrftoken');
-    $.post( url, {
-        csrfmiddlewaretoken: csrfToken,
-        comment: sender.value,
-        path: path
-      }).done(function() {
-        sender.style.borderColor = "#85c222"
-      }).fail(function() {
-        sender.style.borderColor = "#FFc222"
-      })
+    if(!sender.run) {
+        sender.run = true;
+        setTimeout(function () {
+            var csrfToken = getCookie('csrftoken');
+            $.post( url, {
+                csrfmiddlewaretoken: csrfToken,
+                comment: sender.value,
+                path: path
+              }).done(function() {
+                sender.run = false;
+                sender.style.borderColor = "#85c222"
+              }).fail(function() {
+                sender.run = false;
+                sender.style.borderColor = "#FFc222"
+              })}, 1000);
+    }
 }
 
 $(function(){

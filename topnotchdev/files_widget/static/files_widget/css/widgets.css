@@ -56,13 +56,25 @@
 }
 
 .files-widget-dropbox .preview .thumbnail {
-    min-height: 100px;
+    max-height: 200px;
+    max-width: 200px;
 	vertical-align: middle;
     background: url(/static/files_widget/img/transparent-bg.gif) left top;
 }
 
 .files-widget-dropbox .preview.new .thumbnail {
 	opacity: .5;
+}
+
+.image-holder p {
+    position: absolute;
+    vertical-align: top;
+    height: 20px;
+    line-height: 20px;
+    background: #fff;
+    border-radius: 4px;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .8);
+    padding: 2px;
 }
 
 .files-widget-dropbox .buttons {

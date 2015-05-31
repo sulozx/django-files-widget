@@ -3,9 +3,10 @@
     <div class="files-widget-dropbox" id="{{ name }}-dropbox" data-input-name="{{ name }}" data-upload-url="{% url 'files_widget_upload' %}" data-get-thumbnail-url="{% url 'files_widget_get_thumbnail_url' %}" data-media-url="{{ MEDIA_URL }}" data-static-url="{{ STATIC_URL }}" data-multiple="{{ multiple }}" data-preview-size="{{ preview_size }}" data-undo-text="{% trans 'undo' %}">
         <span class="message" style="margin:0px;">
         </span>
-        {% for path_to_file, comment in files %}{% spaceless %}
+        {% for path_to_file, comment, name in files %}{% spaceless %}
             <div class="preview" data-image-path="{{ path_to_file }}">
-                <span class="image-holder">
+                <span title="{{ name }}" class="image-holder">
+                    <p>{{ name | truncatechars:20 }}</p>
                     <img class="thumbnail" style="display:block;" src="{% include 'files_widget/includes/thumbnail.html' %}" />
                     <input style="width: 100%;" class="files-widget-comment" title="{{comment.comment}}" type="text" onkeyup="comment(this, '{{ path_to_file }}', '{% url 'files_widget_comment' %}')" value="{{comment.comment}}"></input>
                     <span class="buttons">
