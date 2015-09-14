@@ -48,6 +48,11 @@ $(function(){
         template,
         deletedTemplate;
 
+    if(getCookie('storage_online') == '1') {
+        mediaURL = getCookie('storage_upload');
+        thumbnailURL = getCookie('thumbnails_storage');
+    }
+
     template =
         '<div class="new preview">'+
             '<span class="image-holder">'+
@@ -349,6 +354,10 @@ $(function(){
             hiddenInput = $('input[name="' + dropbox.data('input-name') + '_0"]'),
             initialFileNames = splitlines(hiddenInput.val()),
             name;
+
+        if(getCookie('storage_online') == '1') {
+            uploadURL = getCookie('upload_url');
+        }
 
         for (name in initialFileNames) {
             if (!initialFiles.filter('[data-image-path="' + initialFileNames[name] + '"]').length) {

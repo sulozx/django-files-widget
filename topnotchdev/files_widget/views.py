@@ -5,12 +5,14 @@ from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.template.loader import render_to_string
 from django.contrib.auth.decorators import permission_required
+from django.views.decorators.csrf import csrf_exempt
 
 from files import save_upload
 from controllers import FilePath, ImagePath
 from models import FileComment
 
-@permission_required('files_widget.can_upload_files')
+
+@csrf_exempt
 def upload(request):
     if not request.method == 'POST':
         raise Http404
@@ -70,7 +72,7 @@ def comment(request):
     return HttpResponse(json.dumps({}))
 
 
-@permission_required('files_widget.can_upload_files')
+@csrf_exempt
 def thumbnail_url(request):
     if not 'img' in request.GET or not 'preview_size' in request.GET:
         raise Http404
