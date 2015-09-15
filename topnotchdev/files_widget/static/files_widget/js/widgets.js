@@ -45,8 +45,15 @@ $(function(){
         staticURL = $('[data-static-url]').data('static-url'),
         thumbnailURL = $('[data-get-thumbnail-url]').data('get-thumbnail-url'),
         undoText = $('[data-undo-text]').data('undo-text'),
+        storage_endpoint = '',
         template,
         deletedTemplate;
+
+    if(getCookie('storage_online') == '1') {
+        mediaURL = getCookie('storage_upload');
+        thumbnailURL = getCookie('thumbnails_storage');
+        storage_endpoint = getCookie('storage_endpoint');
+    }
 
     template =
         '<div class="new preview">'+
@@ -198,7 +205,7 @@ $(function(){
                 'img=' + encodeURIComponent(imagePath) + '&preview_size=' + previewSize,
                 function(data) {
             preview.find('.thumbnail')
-                .css({ 'width': '', 'height': '' }).attr('src', data);;
+                .css({ 'width': '', 'height': '' }).attr('src', storage_endpoint + data);;
             preview.removeClass('new');
         });
     }
@@ -253,6 +260,8 @@ $(function(){
         
         preview.removeClass('new').attr('data-image-path', imagePath);
         preview.find('.progress-holder, .filename').remove();
+
+        thumbnailPath = storage_endpoint + thumbnailPath;
 
         if (thumbnailPath) {
             preview.find('.thumbnail')
@@ -350,10 +359,20 @@ $(function(){
             initialFileNames = splitlines(hiddenInput.val()),
             name;
 
+        if(getCookie('storage_online') == '1') {
+            uploadURL = getCookie('upload_url');
+        }
+
         for (name in initialFileNames) {
             if (!initialFiles.filter('[data-image-path="' + initialFileNames[name] + '"]').length) {
                 addPreview(dropbox, initialFileNames[name], null, null, true);
             }
+        }
+
+        if(getCookie('storage_online') == '1') {
+            $( '.preview', dropbox ).each(function() {
+                downloadThumbnail($( this ));
+            });
         }
 
         initialFiles = $('.preview', dropbox);
