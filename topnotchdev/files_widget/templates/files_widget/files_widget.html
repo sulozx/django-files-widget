@@ -6,9 +6,13 @@
         {% for path_to_file, comment, name in files %}{% spaceless %}
             <div class="preview" data-image-path="{{ path_to_file }}">
                 <span title="{{ name }}" class="image-holder">
-                    <p>{{ name | truncatechars:20 }}</p>
+                    <p>{{ name | truncatechars:18 }}</p>
                     <img class="thumbnail" style="display:block;" src="{% include 'files_widget/includes/thumbnail.html' %}" />
-                    <input style="width: 100%;" class="files-widget-comment" title="{{comment.comment}}" type="text" onkeyup="comment(this, '{{ path_to_file }}', '{% url 'files_widget_comment' %}')" value="{{comment.comment}}"></input>
+                    <!--
+                    <input style="width: 100%;" class="files-widget-comment" title="{{comment.comment}}" type="text"
+                           onkeyup="comment(this, '{{ path_to_file }}', '{% url 'files_widget_comment' %}')"
+                           value="{{comment.comment}}"></input>
+                   -->
                     <span class="buttons">
                         <a href="javascript:void(0)" class="enlarge-button">
                             <img src="{{ STATIC_URL }}files_widget/img/enlarge_button.png" />
