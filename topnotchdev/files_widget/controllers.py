@@ -11,6 +11,7 @@ from django.core.files.images import ImageFile
 from django.core.files.storage import get_storage_class
 from django.contrib.staticfiles import finders
 
+from sorl.thumbnail.images import ImageFile as SImageFile
 from sorl.thumbnail import get_thumbnail
 
 from conf import *
@@ -156,7 +157,10 @@ class ImagePath(FilePath):
 
         if not key in self._thumbnails:
             #self._thumbnails[key] = get_thumbnail(self._get_local_path_or_file(), size, **attrs)
-            self._thumbnails[key] = get_thumbnail(self.local_path, size, **attrs)
+            try:
+                self._thumbnails[key] = get_thumbnail(self.local_path, size, **attrs)
+            except Exception:
+                return SImageFile(ImageFile(open(self.local_path, 'r')))
 
         return self._thumbnails[key]
 
